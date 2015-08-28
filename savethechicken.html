@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+	<head>
+</head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<style>
+h1{
+font-family: "Helvetica Neue", Arial, sans-serif;
+font-size: 300px;
+font-weight: bolder;
+}
+	
+body {
+    background-image: url("barn.jpg");
+	background-size: 617.5px 600px;
+    background-repeat: no-repeat;
+	position: absolute;
+	}
+
+	</style>
+
+		<script src="processing-1.4.1.js"></script>
+		<script type="text/processing" data-processing-target="mycanvas">
+	
+		PImage Simage;
+		PImage Rimage;
+		PImage RRimage;
+		PImage Jimage;
+		PImage Himage;
+		PImage Dimage;
+		PImage HSimage;
+		PImage BDimage;
+		PImage Limage;
+		PImage Cimage;
+			var screenheight;
+			var scroller;
+			var barrel;
+			var haystack;
+			var barnDoor;
+			var leaves;
+			var chicken;
+			var character;
+			var isGameOver= false;
+			var gameStart= false;
+			var gameWin= false;
+			var a=4;
+
+
+		/* @pjs preload="playerstanding (3).png,playerrunning1 (3).png,playerrunning2 (4).png,playerjumping (3).png,playerducking (4).png,haystack (1).png, barndoor (2).png, leaves (1).png, chicken (1).png"; */ //players	
+	
+			
+			void setup() {
+
+			Simage=loadImage("playerstanding (3).png");
+			Rimage=loadImage("playerrunning1 (3).png");
+			RRimage=loadImage("playerrunning2 (4).png");
+			Jimage=loadImage("playerjumping (3).png");
+			Dimage=loadImage("playerducking (4).png");
+			HSimage=loadImage("haystack (1).png");
+			BDimage=loadImage("barndoor (2).png");
+			Limage=loadImage("leaves (1).png");
+			Cimage=loadImage("chicken (1).png");
+			
+			screenheight= 600;
+			size(screenheight, screenheight);
+			background(50, alpha);
+			character= new Character(0,470);
+			scroller= new Scroller([121, 121, 105], 2, 0);
+			  haystack= new Haystack();
+			  barnDoor= new BarnDoor();
+			  leaves= new Leaves();
+			  scroller.makeFloor();
+			  scroller.makeBarrel();
+			  scroller.makeHaystack();
+			  scroller.makeBarnDoor();
+			  scroller.makeLeaves();
+			  scroller.makeChicken();
+			}
+		
+			
+			void draw(){ 
+			fill(255,255,255)
+			textFont("serif", 50);
+			textAlign(CENTER);
+			text("Save the Chicken", 300, 200);
+			fill(255,255,255);
+			textFont("serif", 40);
+			textAlign(CENTER);
+			text("Instructions: ", 300, 300);
+			fill(255,255,255)
+			textFont("serif", 20)
+			text("-jump over obstacles using spacebar",300, 400);
+			fill(255,255,255)
+			textFont("serif", 20)
+			text("-use the down arrow to duck under stale door (tip: duck early)",300, 450);
+			fill(255,255,255)
+			textFont("serif", 20)
+			text("-find and save Riley to win the game",300, 500);
+			if(gameStart){
+				background(50, alpha);
+				scroller.moveFloor();
+				scroller.moveBarrel();
+				scroller.moveHaystack();
+				scroller.moveBarnDoor();
+				scroller.moveLeaves();
+				scroller.moveChicken();
+				character.moveCharacter();
+				character.drawCharacter();
+				if(isGameOver=== true){
+					xP=0;
+					yP=0;
+					w=617.5;
+					h=600;
+					rect(xP,yP, w, h);
+					fill(0,0,0)
+			textFont("serif", 100);
+			textAlign(CENTER);
+			text("Game Over", 300, 300);
+			fill(0,0,0)
+			textFont("serif", 20);
+			textAlign(CENTER);
+			text("-click restart and StartGame to try and save Riley again", 300, 400);
+				}
+				if(gameWin=== true){
+					if(a===4){
+					xP=0;
+					yP=0;
+					w=617.5;
+					h=600;
+					rect(xP,yP, w, h);
+					fill(0,0,0)
+			textFont("serif", 50);
+			textAlign(CENTER);
+			text("You Saved Riley!!", 300, 300);
+			fill(0,0,0)
+			textFont("serif", 15);
+			textAlign(CENTER);
+			text("Riley will never have to face the cruel, inhumane farms where farmers inject", 300, 500);
+			text("hormones and keep them locked away in brutal living conditions.", 300, 550);
+			}
+			}
+			}
+}			
+			
+		class Floor{
+		var height;
+		var width;
+		var xPos;
+		var yPos;
+		var xSpeed;
+		var ySpeed;
+			Floor(col, xx, speed){
+				r=col[0];
+				g=col[1];
+				b=col[2];
+				xSpeed= speed;
+				ySpeed= 0;
+				width= 100;
+				height= 20;
+				xPos= xx;
+				yPos= 513;
+			}
+			
+			void move(){
+				xPos= xPos-xSpeed;
+			}
+			
+			
+			void drawFloor(){
+				fill(r,g,b);
+				rect(xPos, yPos, width, height);
+			}
+		}
+			
+			
+		class Barrel {
+			var height;
+			var width;
+			var xPos;
+			var yPos;
+			var xSpeed;
+			var ySpeed;
+			var g;
+			var b;
+			var r;
+			Barrel(col, xx, speed){
+				r=col[0];
+				g=col[1];
+				b=col[2];
+				xSpeed= speed;
+				ySpeed= 0;
+				width= 40;
+				height= 30;
+				xPos= (round(random(600, 2000)));
+				yPos= 512;
+			}
+		
+			void drawBarrel(){
+				fill(r,g,b);
+				ellipse(xPos, yPos, width, height)
+			}				
+		}
+			
+		class Haystack {
+			var xPos;
+			var yPos;
+			var xSpeed;
+			var ySpeed;
+			Haystack(xx, speed){
+				xSpeed= speed;
+				ySpeed= 0;
+				xPos= (round(random(4000, 6000)));
+				yPos= 255;
+			}
+			void drawHaystack(){
+				image(HSimage, xPos, 255);
+			}				
+		}
+			
+		class BarnDoor {
+			var xPos;
+			var yPos;
+			var xSpeed;
+			var ySpeed;
+			BarnDoor(xx, speed){
+				xSpeed= speed;
+				ySpeed= 0;
+				xPos= (round(random(11000, 14000)));
+				yPos= 0;
+			}
+			void drawBarnDoor(){
+				image(BDimage, xPos, yPos);
+				}
+		}
+				
+		class Leaves {
+			var xPos;
+			var yPos;
+			var xSpeed;
+			var ySpeed;
+			Leaves(xx, speed){
+				xSpeed= speed;
+				ySpeed= 0;
+				xPos= (round(random(8000, 10000)));
+				yPos= 500;
+			}
+			void drawLeaves(){
+				image(Limage, xPos, 500);
+			}				
+		}
+		class Chicken {
+			var xPos;
+			var yPos;
+			var xSpeed;
+			var ySpeed;
+			Chicken(xx, speed){
+				xSpeed= speed;
+				ySpeed= 0;
+				xPos = xx+10000;
+				yPos = 350;
+			}
+			void drawChicken(){
+				image(Cimage, xPos, yPos);
+			}				
+		}
+				
+		class Scroller{
+			var color;
+			var xSpeed;
+			var ySpeed;
+			var listFloor;
+			var furthestX;
+			var ba;
+			Scroller(col, xS, yS){
+				r=col[0];
+				g=col[1];
+				b=col[2];
+				xSpeed= xS;
+				ySpeed= yS;
+				xPos= 0;
+				yPos= 513;
+				furthestX =0;
+				listFloor=[];
+				listBarrel=[];
+			}
+			
+			void makeFloor(){
+				while(furthestX<650){
+					floor= new Floor([r, g, b], furthestX+100, xSpeed);
+					listFloor.push(floor);
+					furthestX= floor.width+furthestX;
+				}
+			}
+			
+			void moveFloor(){
+				for (var i=0; i<listFloor.length; i ++){			
+					ba=listFloor[i];
+					ba.move();
+					ba.drawFloor();
+				}
+				furthestX =furthestX - xSpeed;
+				if(furthestX <650) {
+					floor= new Floor([r,g,b], furthestX+100, xSpeed);
+					listFloor.push(floor);
+					furthestX= floor.width+furthestX;
+				}
+			}
+	
+			void makeBarrel(){
+				barrel= new Barrel([153, 102, 51], furthestX-100, xSpeed);
+			}
+			
+			void moveBarrel(){
+				barrel.drawBarrel();
+				floor.drawFloor();
+				if(barrel.xPos>-50){
+					floor.drawFloor();
+					barrel.xPos= barrel.xPos+(round(random(-15, -1)));
+					barrel.drawBarrel();
+					floor.drawFloor();
+				}
+				if(barrel.xPos<-40){
+					barrel.drawBarrel();
+					barrel= new Barrel([153, 102, 51], furthestX-100, xSpeed);
+					barrel.drawBarrel();
+				}
+			}
+			
+			void makeHaystack(){
+				haystack= new Haystack(furthestX-100, xSpeed);
+			}
+			
+			void moveHaystack(){
+				haystack.drawHaystack();
+				floor.drawFloor();
+				if(haystack.xPos>-200){
+					floor.drawFloor();
+					haystack.xPos= haystack.xPos+(round(random(-15, -1)));
+					haystack.drawHaystack();
+					floor.drawFloor();
+				}
+				if(haystack.xPos<-190){
+					haystack.drawHaystack();
+					haystack= new Haystack(furthestX-100, xSpeed);
+					haystack.drawHaystack();
+				} 
+			}
+			
+			void makeBarnDoor(){
+				barnDoor= new BarnDoor(furthestX-100, xSpeed);
+			}
+			
+			void moveBarnDoor(){
+				barnDoor.drawBarnDoor();
+				floor.drawFloor();
+				if(barnDoor.xPos>-500){
+					floor.drawFloor();
+					barnDoor.xPos= barnDoor.xPos+(round(random(-15, -1)));
+					barnDoor.drawBarnDoor();
+					floor.drawFloor();
+				}
+				if(barnDoor.xPos<-490){
+					barnDoor.drawBarnDoor();
+					barnDoor= new BarnDoor(furthestX-100, xSpeed);
+					barnDoor.drawBarnDoor();
+				}
+			}
+			
+			void makeLeaves(){
+				leaves= new Leaves(furthestX-100, xSpeed);
+			}
+			
+			void moveLeaves(){
+				leaves.drawLeaves();
+				floor.drawFloor();
+				if(leaves.xPos>-100){
+					floor.drawFloor();
+					leaves.xPos= leaves.xPos+(round(random(-15, -1)));
+					leaves.drawLeaves();
+					floor.drawFloor();
+				}
+				if(leaves.xPos<-90){
+					leaves.drawLeaves();
+					leaves= new Leaves(furthestX-100, xSpeed);
+					leaves.drawLeaves();
+				}
+			}
+			
+			void makeChicken(){
+				chicken= new Chicken(furthestX-100, xSpeed);
+			}
+			
+			void moveChicken(){
+				chicken.drawChicken();
+				floor.drawFloor();
+				if(chicken.xPos>10){
+					floor.drawFloor();
+					chicken.xPos= chicken.xPos-2;
+					chicken.drawChicken();
+					floor.drawFloor();
+				}
+			}
+		}
+
+		class Character{
+			var duckCount=0;
+			var height;
+			var width;
+			var ySpeed;
+			var xPos;
+			var yPos;
+			var xP;
+			var yP;
+			var switchCount= 0;
+			var timeToSwitch;
+			Character(xPos,yPos){
+				height= 15;
+				width= 15;
+				xPos= 0;
+				yPos= 470;
+				xP=0;
+				yP=500;
+				timeToSwitch = true;
+			}
+			
+			void drawCharacter(){
+				if(duckCount===0){
+					if(timeToSwitch){
+						image(Rimage,xPos,yPos);
+					}
+					else{
+					image(RRimage, xPos, yPos);
+					}
+						if(switchCount>8){
+							switchCount=0;
+							timeToSwitch=!timeToSwitch;
+						}
+				switchCount= switchCount+1;
+				}
+				else{
+					image(Dimage, xP, yP);
+					duckCount = duckCount-1;
+					
+				}
+			}
+			
+			void jump(){ 
+				ySpeed = 10;
+			}
+			
+			
+			void duck(){
+				duckCount=50;
+			}
+			
+			void moveCharacter(){ 
+				yPos= yPos-ySpeed;
+				if (yPos < 300){
+					ySpeed= -10;
+				}
+				if (yPos > 470){
+					yPos = 470;
+					ySpeed=0;
+				}
+				checkCollision();
+			}
+
+		void checkCollision(){
+		
+			if (barrel.xPos < 10 && barrel.xPos > 0) {
+				if (yPos>460){;
+					//location.reload();
+					isGameOver= true;
+				}
+			}
+			if (haystack.xPos< -60 && haystack.xPos > -70){
+				if (yPos> 460){
+					isGameOver= true;
+				}
+			}
+			if (leaves.xPos < 10 && leaves.xPos > 0) {
+				if (yPos>460){
+					isGameOver= true;
+				}
+			}
+			if(barnDoor.xPos< -200 && barnDoor.xPos > -210) {
+				if(duckCount===0) {
+					isGameOver= true;
+				}
+			}
+			if (chicken.xPos < 20 && chicken.xPos > 0) {
+				if (yPos<470){
+					gameWin= true;
+				}
+			}
+		} 
+	}			
+
+function spacebarPressed() { 
+	character.jump();
+}
+            
+function moveSelection(evt) {
+    evt = evt || window.event; 
+	console.log(evt);
+	if (evt.keyCode === 32){
+		spacebarPressed();
+	}
+	if (evt.keyCode === 40){
+		character.duck();
+	}
+}
+document.onkeydown = moveSelection;
+
+
+document.getElementById("StartGame").onclick = function () {
+		gameStart= true;	
+}
+
+document.getElementById("restart").onclick = function () {
+	if(isGameOver){
+		gameStart= false;
+		isGameOver=false;
+	}
+	else if(gameStart=false){
+		gameStart= true;
+	}
+}
+
+</script>
+<body>
+<canvas id="mycanvas"></canvas>
+<title> Save the Chicken </title>
+<input id="StartGame" type="button" value="StartGame" />
+<input id="restart" type="button" value="restart" />
+<audio controls autoplay> <source  src="music.mp3">
+
+</audio>
+</body>
+</html>

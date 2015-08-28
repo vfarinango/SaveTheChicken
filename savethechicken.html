@@ -79,23 +79,36 @@ body {
 		
 			
 			void draw(){ 
-			fill(255,255,255)
+			fill(0,  0, 0);
 			textFont("serif", 50);
 			textAlign(CENTER);
-			text("Save the Chicken", 300, 200);
-			fill(255,255,255);
-			textFont("serif", 40);
+			text("Save The Chicken!", 310, 80);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
 			textAlign(CENTER);
-			text("Instructions: ", 300, 300);
-			fill(255,255,255)
-			textFont("serif", 20)
-			text("-jump over obstacles using spacebar",300, 400);
-			fill(255,255,255)
-			textFont("serif", 20)
-			text("-use the down arrow to duck under stale door (tip: duck early)",300, 450);
-			fill(255,255,255)
-			textFont("serif", 20)
-			text("-find and save Riley to win the game",300, 500);
+			text("Instructions:",305, 200);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
+			textAlign(CENTER);
+			text("Objective: SAVE. THE. CHICKEN.",305, 260);
+			
+			fill(255,  255, 255);
+			textFont("serif", 20);
+			textAlign(CENTER);
+			text("Press SPACEBAR to JUMP, DOWNKEY to DUCK",305, 320);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
+			textAlign(CENTER);
+			text("Jump over obstacles and duck to avoid them",305, 380);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
+			textAlign(CENTER);
+			text("Good Luck saving Riley!!",305, 440);
+			
 			if(gameStart){
 				background(50, alpha);
 				scroller.moveFloor();

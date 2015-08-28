@@ -79,23 +79,36 @@ body {
 		
 			
 			void draw(){ 
-			fill(255,255,255)
+			fill(0,  0, 0);
 			textFont("serif", 50);
 			textAlign(CENTER);
-			text("Save the Chicken", 300, 200);
-			fill(255,255,255);
-			textFont("serif", 40);
+			text("Save The Chicken!", 310, 80);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
 			textAlign(CENTER);
-			text("Instructions: ", 300, 300);
-			fill(255,255,255)
-			textFont("serif", 20)
-			text("-jump over obstacles using spacebar",300, 400);
-			fill(255,255,255)
-			textFont("serif", 20)
-			text("-use the down arrow to duck under stale door (tip: duck early)",300, 450);
-			fill(255,255,255)
-			textFont("serif", 20)
-			text("-find and save Riley to win the game",300, 500);
+			text("Instructions:",305, 200);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
+			textAlign(CENTER);
+			text("Objective: SAVE. THE. CHICKEN.",305, 260);
+			
+			fill(255,  255, 255);
+			textFont("serif", 20);
+			textAlign(CENTER);
+			text("Press SPACEBAR to JUMP, DOWNKEY to DUCK",305, 320);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
+			textAlign(CENTER);
+			text("Jump over obstacles and duck to avoid them",305, 380);
+			
+			fill(255,  255, 255);
+			textFont("serif", 25);
+			textAlign(CENTER);
+			text("Good Luck saving Riley!!",305, 440);
+			
 			if(gameStart){
 				background(50, alpha);
 				scroller.moveFloor();
@@ -112,14 +125,20 @@ body {
 					w=617.5;
 					h=600;
 					rect(xP,yP, w, h);
-					fill(0,0,0)
-			textFont("serif", 100);
-			textAlign(CENTER);
-			text("Game Over", 300, 300);
-			fill(0,0,0)
-			textFont("serif", 20);
-			textAlign(CENTER);
-			text("-click restart and StartGame to try and save Riley again", 300, 400);
+					fill(0,  0, 0);
+					textFont("serif", 100);
+					textAlign(CENTER);
+					text("GAME",305, 200);
+					
+					fill(0,  0, 0);
+					textFont("serif", 100);
+					textAlign(CENTER);
+					text("OVER",305, 300);
+					
+					fill(0,  0, 0);
+					textFont("serif", 30);
+					textAlign(CENTER);
+					text("Refresh to try to save Riley again!",305, 380);
 				}
 				if(gameWin=== true){
 					if(a===4){
@@ -128,15 +147,21 @@ body {
 					w=617.5;
 					h=600;
 					rect(xP,yP, w, h);
-					fill(0,0,0)
-			textFont("serif", 50);
-			textAlign(CENTER);
-			text("You Saved Riley!!", 300, 300);
-			fill(0,0,0)
-			textFont("serif", 15);
-			textAlign(CENTER);
-			text("Riley will never have to face the cruel, inhumane farms where farmers inject", 300, 500);
-			text("hormones and keep them locked away in brutal living conditions.", 300, 550);
+					fill(0,  0, 0);
+					textFont("serif", 100);
+					textAlign(CENTER);
+					text("YOU",305, 200);
+					
+					fill(0,  0, 0);
+					textFont("serif", 100);
+					textAlign(CENTER);
+					text("WIN",305, 300);
+					
+					fill(0,  0, 0);
+					textFont("serif", 30);
+					textAlign(CENTER);
+					text("Refresh to try to save Riley again!",305, 380);
+					}
 			}
 			}
 			}
